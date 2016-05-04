@@ -1,0 +1,74 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Фото ателье Fotoforte">
+        <meta name="author" content="Kirill Zhuravlev">
+        <title>Fotoforte - печать и реставрация фотографий</title>
+        <link href="{% static "static/css/bootstrap.min.css" %}" rel="stylesheet">
+        <link href="{% static "static/css/simple-sidebar.css" %}" rel="stylesheet">
+    </head>
+    <body>
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="/services/">
+                            Fotoforte
+                        </a>
+                    </li>
+                    {% block services%}
+                        {% for service_type in service_types %}
+                            <li>{{service_type.name }}</li>
+                            {% for service in services %}
+                                {% if service.service_type_id = service_type.id %}
+                                    <li>
+                                        <a href="/services/{{ service.id }}/">{{ service.name }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endblock %}
+                </ul>
+            </div>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% block service %}
+                                <h1>Тут типа общее что-то</h1>
+                                <p>А тут общее описание</p>
+                            {% endblock %}
+                            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Скрыть меню</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /#page-content-wrapper -->
+        </div>
+        <!-- /#wrapper -->
+        <!-- jQuery -->
+        <script src="{% static "static/js/jquery.js" %}"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{% static "static/js/bootstrap.min.js" %}"></script>
+        <!-- Menu Toggle Script -->
+        <script>
+        $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+        var text = $('#menu-toggle').text();
+        if (text == 'Скрыть меню'){
+        $("#menu-toggle").text('Показать меню');
+        } else {
+        $("#menu-toggle").text('Скрыть меню');
+        }
+        });
+        </script>
+    </body>
+</html>
